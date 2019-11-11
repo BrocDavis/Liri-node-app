@@ -1,7 +1,7 @@
 require("dotenv").config();
-let keys = require("./keys.js");
-let Spotify = require('node-spotify-api');
-let Axios = require('axios');
+const keys = require("./keys.js");
+const Spotify = require('node-spotify-api');
+const axios = require('axios');
 
 
 userCommand = process.argv[2];
@@ -29,10 +29,24 @@ switch (userCommand) {
         break;
 }
 
-function concertThis(artistName){
+function concertThis(artist){
+    axios.get("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp").then(
+  function(response) {
+    console.log(response.data[0]);
+  })
+
+}
+
+function spotifySong(songName){
+    let spotify = new Spotify(keys.spotify);
+
+}
+
+function moveThis(movieName){
+    console.log(movieName);
+}
+
+function doWhatItSays(artistName){
     console.log(artistName);
 }
 
-function spotifySong(){
-    let spotify = new Spotify(keys.spotify);
-}
