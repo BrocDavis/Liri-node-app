@@ -2,6 +2,7 @@ require("dotenv").config();
 const keys = require("./keys.js");
 const Spotify = require('node-spotify-api');
 const axios = require('axios');
+let spotify = new Spotify(keys.spotify);
 
 
 userCommand = process.argv[2];
@@ -40,9 +41,14 @@ function concertThis(artist) {
 }
 
 function spotifySong(songName) {
-    let spotify = new Spotify(keys.spotify);
+    if(!songName){songName = "the Sign"}
+    spotify.search({type: "track", query: songName}).then(function (response){
+        console.log(response);
+    })
+    }
+    
 
-}
+
 
 function movieThis(movieName) {
         //default movie to Mr Nobody if no movie is chosen
