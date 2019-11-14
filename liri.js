@@ -2,6 +2,7 @@ require("dotenv").config();
 const keys = require("./keys.js");
 const Spotify = require('node-spotify-api');
 const axios = require('axios');
+let spotify = new Spotify(keys.spotify);
 
 
 userCommand = process.argv[2];
@@ -27,7 +28,7 @@ switch (userCommand) {
         doWhatItSays(userInput);
         break;
     default:
-        console.log("please try entering in again.");
+        console.log("Command not found. Please try entering in again.");
         break;
 }
 
@@ -40,8 +41,19 @@ function concertThis(artist) {
 }
 
 function spotifySong(songName) {
-    let spotify = new Spotify(keys.spotify);
-
+    if(!songName){songName = "'The Sign' Ace of base"}
+    spotify.search({ type: 'track', query: songName }, function(err, data) {
+        if (err) {
+          return console.log('Error occurred: ' + err);
+        }
+       let result = data.tracks.items[0];
+      console.log(`
+        Artist(s): ${result.album.artists[0].name}
+        Song Name: ${result.name}
+        preview URL:${result.external_urls.spotify}
+        album title: ${result.album.name}
+                `); 
+})
 }
 
 function movieThis(movieName) {
